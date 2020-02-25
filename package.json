@@ -1,0 +1,28 @@
+{
+  "name": "ultra-ncab-device-message-adapter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "node_modules/node-red/red.js -s ./settings.js -u ./",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "node-red"
+  ],
+  "author": "David McGinnis",
+  "license": "ISC",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "dependencies": {
+    "node-red": "^1.0.3",
+    "node-red-contrib-auth": "^0.1.7",
+    "node-red-dashboard": "^2.19.4",
+    "node-red-node-serialport": "~0.10.0"
+  }
+}
