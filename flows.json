@@ -213,11 +213,11 @@
         "parity": "none",
         "stopbits": "1",
         "waitfor": "",
-        "newline": "5008",
+        "newline": "5012",
         "bin": "bin",
         "out": "count",
         "addchar": "",
-        "responsetimeout": "10000"
+        "responsetimeout": "500"
     },
     {
         "id": "37caa7c1.288138",
@@ -261,7 +261,7 @@
         "z": "758e0e20.2b99f",
         "name": "Teensy",
         "serial": "a274e7f8.634e38",
-        "x": 110,
+        "x": 90,
         "y": 320,
         "wires": [
             [
@@ -288,7 +288,7 @@
         "z": "758e0e20.2b99f",
         "name": "Teensy",
         "serial": "a274e7f8.634e38",
-        "x": 1180,
+        "x": 1160,
         "y": 240,
         "wires": []
     },
@@ -346,7 +346,7 @@
         "type": "function",
         "z": "758e0e20.2b99f",
         "name": "createSettings",
-        "func": "var device = flow.get('device');\n\nvar buffer = new ArrayBuffer(8);\nvar settingsView = new DataView(buffer);\nsettingsView.setInt32(0,device.freqOffsetSetting.value, true);\nsettingsView.setInt32(4,device.sampleIntervalSetting.value, true);\n\nreturn {topic:'settings',payload:Buffer.from(buffer)};\n",
+        "func": "var device = flow.get('device');\n\nvar buffer = new ArrayBuffer(12);\nvar settingsView = new DataView(buffer);\nvar check = 12;\n\nsettingsView.setInt32(0,device.freqOffsetSetting.value, true);\nsettingsView.setInt32(4,device.sampleIntervalSetting.value, true);\nsettingsView.setInt32(8,check, true);\n\nreturn {topic:'settings',payload:Buffer.from(buffer)};\n",
         "outputs": 1,
         "noerr": 0,
         "x": 980,
@@ -416,16 +416,12 @@
         "type": "function",
         "z": "758e0e20.2b99f",
         "name": "Save initSettings in Memory",
-        "func": "flow.set('device', msg.payload);\nvar restfulDevice = \n{\n    deviceType  : msg.payload.deviceType,\n    name        : msg.payload.name\n};\n\nglobal.set('restfulDevice', restfulDevice);\nreturn msg;",
-        "outputs": 1,
+        "func": "flow.set('device', msg.payload);\nvar restfulDevice = \n{\n    deviceType  : msg.payload.deviceType,\n    name        : msg.payload.name\n};\n\nglobal.set('restfulDevice', restfulDevice);\nreturn null;",
+        "outputs": 0,
         "noerr": 0,
         "x": 760,
         "y": 160,
-        "wires": [
-            [
-                "fda2147a.650798"
-            ]
-        ]
+        "wires": []
     },
     {
         "id": "5323cb69.fd3444",
@@ -510,8 +506,8 @@
         "wires": [
             [
                 "4adef279.708dac",
-                "df17bb96.1dc848",
-                "8f18be8d.eb222"
+                "8f18be8d.eb222",
+                "df17bb96.1dc848"
             ]
         ]
     },
@@ -626,7 +622,7 @@
         "type": "function",
         "z": "758e0e20.2b99f",
         "name": "Convert Bytes to Float",
-        "func": "var npts = 512;\nvar buf = new ArrayBuffer(4);\nvar view = new DataView(buf);\nvar real = [];\nvar imag = [];\nfor (var ipt = 0; ipt < npts; ++ipt)\n{\n    for (ib = 0; ib < 4; ++ib) view.setUint8(ib, msg.payload[ipt * 4 + 3 - ib]);\n    real[ipt] = view.getFloat32(0);\n    for (ib = 0; ib < 4; ++ib) view.setUint8(ib, msg.payload[(ipt + npts) * 4 + 3 - ib]);\n    imag[ipt] = view.getFloat32(0);\n}\nvar lastPt = npts + npts;\nfor (ib = 0; ib < 4; ++ib) view.setUint8(ib, msg.payload[lastPt * 4 + 3 - ib]);\nvar ultraAmp = view.getInt32(0);\nvar ultraAmpAttr = flow.get('device').ultraAmp;\nultraAmpAttr.value = ultraAmp;\n//node.warn('ultraAmp = ' + ultraAmp.toString())\n\n++lastPt;\nfor (ib = 0; ib < 4; ++ib) view.setUint8(ib, msg.payload[lastPt * 4 + 3 - ib]);\nvar freqOffset = view.getInt32(0);\nvar freqOffsetAttr = flow.get('device').freqOffsetReading;\nfreqOffsetAttr.value = freqOffset;\n//node.warn('freqOffset = ' + freqOffset.toString())\n\n++lastPt;\nfor (ib = 0; ib < 4; ++ib) view.setUint8(ib, msg.payload[lastPt * 4 + 3 - ib]);\nvar sampleInterval = view.getInt32(0);\nvar sampleIntervalAttr = flow.get('device').sampleIntervalReading;\nsampleIntervalAttr.value = sampleInterval;\n//node.warn('sampleInterval = ' + sampleInterval.toString())\n\n//node.warn('real0 = ' + real[0].toString());\n//node.warn('imag0 = ' + imag[0].toString());\nreturn {topic:'timeData', payload:{'real':real,'imag':imag}};\n\n",
+        "func": "var npts = 512;\nvar buf = new ArrayBuffer(4);\nvar view = new DataView(buf);\nvar real = [];\nvar imag = [];\nfor (var ipt = 0; ipt < npts; ++ipt)\n{\n    for (ib = 0; ib < 4; ++ib) view.setUint8(ib, msg.payload[ipt * 4 + 3 - ib]);\n    real[ipt] = view.getFloat32(0);\n    for (ib = 0; ib < 4; ++ib) view.setUint8(ib, msg.payload[(ipt + npts) * 4 + 3 - ib]);\n    imag[ipt] = view.getFloat32(0);\n}\nvar lastPt = npts + npts;\nfor (ib = 0; ib < 4; ++ib) view.setUint8(ib, msg.payload[lastPt * 4 + 3 - ib]);\nvar ultraAmp = view.getInt32(0);\nvar ultraAmpAttr = flow.get('device').ultraAmp;\nultraAmpAttr.value = ultraAmp;\n//node.warn('ultraAmp = ' + ultraAmp.toString())\n\n++lastPt;\nfor (ib = 0; ib < 4; ++ib) view.setUint8(ib, msg.payload[lastPt * 4 + 3 - ib]);\nvar freqOffset = view.getInt32(0);\nvar freqOffsetAttr = flow.get('device').freqOffsetReading;\nfreqOffsetAttr.value = freqOffset;\n//node.warn('freqOffset = ' + freqOffset.toString())\n\n++lastPt;\nfor (ib = 0; ib < 4; ++ib) view.setUint8(ib, msg.payload[lastPt * 4 + 3 - ib]);\nvar sampleInterval = view.getInt32(0);\nvar sampleIntervalAttr = flow.get('device').sampleIntervalReading;\nsampleIntervalAttr.value = sampleInterval;\n//node.warn('sampleInterval = ' + sampleInterval.toString())\n\n++lastPt;\nfor (ib = 0; ib < 4; ++ib) view.setUint8(ib, msg.payload[lastPt * 4 + 3 - ib]);\nvar check = view.getInt32(0);\n//node.warn('check = ' + check.toString());\nif (check != 5012) return null;\n\n//node.warn('real0 = ' + real[0].toString());\n//node.warn('imag0 = ' + imag[0].toString());\nreturn {topic:'timeData', payload:{'real':real,'imag':imag}};\n\n",
         "outputs": 1,
         "noerr": 0,
         "x": 280,
@@ -914,29 +910,6 @@
         "wires": [
             [
                 "4be3cb07.c3d814"
-            ]
-        ]
-    },
-    {
-        "id": "fda2147a.650798",
-        "type": "delay",
-        "z": "758e0e20.2b99f",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "5",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "x": 980,
-        "y": 160,
-        "wires": [
-            [
-                "df17bb96.1dc848"
             ]
         ]
     },
