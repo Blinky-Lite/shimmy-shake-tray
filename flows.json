@@ -587,7 +587,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 920,
-        "y": 500,
+        "y": 520,
         "wires": [
             []
         ]
@@ -1202,7 +1202,7 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
-        "template": "Ultra Ncab {{{payload.script.name}}}",
+        "template": "Shimmy Spotter {{{payload.script.name}}}",
         "output": "str",
         "x": 500,
         "y": 1040,
