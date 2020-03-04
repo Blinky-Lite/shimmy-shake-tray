@@ -1,5 +1,5 @@
 {
-  "name": "ultra-ncab-device-message-adapter",
+  "name": "shimmy-spotter-tray",
   "version": "1.0.0",
   "description": "",
   "main": "node_modules/node-red/red.js -s ./settings.js -u ./",

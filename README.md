@@ -1,8 +1,8 @@
-# ultra-ncab-dma
-MQTTPUBLISHTOPIC=blinky-lite\/ultra-ncab\/001\/reading<br>
-MQTTSUBSCRIBETOPIC=blinky-lite\/ultra-ncab\/001\/setting<br>
-RESTARTDMATOPIC=blinky-lite/ultra-ncab/001/restartDma<br>
-MQTTCLIENTID=blinky-lite-ultra-ncab-001<br>
+# shimmy-spotter-tray
+MQTTPUBLISHTOPIC=blinky-lite\/shimmy-spotter\/003\/reading<br>
+MQTTSUBSCRIBETOPIC=blinky-lite\/shimmy-spotter\/003\/setting<br>
+RESTARTDMATOPIC=blinky-lite/shimmy-spotter/003/restartDma<br>
+MQTTCLIENTID=blinky-lite-shimmy-spotter-003<br>
 MQTTSERVERIP=broker.shiftr.io<br>
 MQTTUSERNAME=xxx<br>
 MQTTPASSWORD=yyy<br>
