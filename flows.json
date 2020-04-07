@@ -228,7 +228,7 @@
         "id": "f41bd22f.02738",
         "type": "websocket-listener",
         "z": "",
-        "path": "/shimmy/websocket",
+        "path": "/expert/websocket",
         "wholemsg": "false"
     },
     {
@@ -268,6 +268,13 @@
         "willTopic": "",
         "willQos": "0",
         "willPayload": ""
+    },
+    {
+        "id": "2153079e.9f0b88",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "/simple/websocket",
+        "wholemsg": "false"
     },
     {
         "id": "3735014e.3333ce",
@@ -556,7 +563,7 @@
         "type": "function",
         "z": "3c8f4102.d86f2e",
         "name": "Get Signal Quality",
-        "func": "var info = msg.payload;\nvar linkStartIndex  = info.indexOf('Link Quality=');\nvar levelStartIndex = info.indexOf('Signal level=');\nvar linkStopIndex   = info.indexOf('/70');\nvar levelStopIndex   = info.lastIndexOf('dBm');\nvar linkQuality = Number(info.substring(linkStartIndex + 13, linkStopIndex));\nvar signalLevel =  Number(info.substring(levelStartIndex + 13, levelStopIndex - 1));\nvar ssid = info.substring(info.indexOf('ESSID') + 7);\nssid = ssid.substring(0,ssid.indexOf('\"'));\nvar val = {linkQuality : linkQuality, signalLevel: signalLevel, ssid:ssid};\nglobal.set('linkQuality',linkQuality);\nglobal.set('signalLevel', signalLevel);\nglobal.set('ssid', ssid);\nreturn {topic :'test',payload : val};",
+        "func": "var info = msg.payload;\nvar linkStartIndex  = info.lastIndexOf('Link Quality=');\nvar levelStartIndex = info.lastIndexOf('Signal level=');\nvar linkStopIndex   = info.lastIndexOf('/70');\nvar levelStopIndex   = info.lastIndexOf('dBm');\nvar linkQuality = Number(info.substring(linkStartIndex + 13, linkStopIndex));\nvar signalLevel =  Number(info.substring(levelStartIndex + 13, levelStopIndex - 1));\nvar ssid = info.substring(info.indexOf('ESSID') + 7);\nssid = ssid.substring(0,ssid.indexOf('\"'));\nvar val = {linkQuality : linkQuality, signalLevel: signalLevel, ssid:ssid};\nglobal.set('linkQuality',linkQuality);\nglobal.set('signalLevel', signalLevel);\nglobal.set('ssid', ssid);\nreturn {topic :'test',payload : val};",
         "outputs": 1,
         "noerr": 0,
         "x": 520,
@@ -740,7 +747,7 @@
         "id": "f68fcc23.38803",
         "type": "websocket in",
         "z": "3c8f4102.d86f2e",
-        "name": "/shimmy/websocket",
+        "name": "/expert/websocket",
         "server": "f41bd22f.02738",
         "client": "",
         "x": 170,
@@ -777,7 +784,7 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
-        "template": "<!-- Body HTML -->\n    <div class='container' width=\"100%\">\n        <div class='row vert-pad' >\n            <div class='col-md-12'>\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/shimmy?name=02\" >\n                    <table width=\"100%\" alight=\"left\">\n                        <tr>\n                            <td width=\"30%\" align='center'> <img src=\"/img/shimmyYellow.png\" height=\"70px\"/></td>\n                            <td width=\"70%\" align=\"left\">Shimmy Shaker 02</td>\n                        </tr>\n                    </table>\n                </a>\n            </div>\n        </div>\n    </div>",
+        "template": "<!-- Body HTML -->\n    <div class='container' width=\"100%\">\n        <div class='row vert-pad' >\n            <div class='col-md-12'>\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/simple\" >\n                    <table width=\"100%\" alight=\"left\">\n                        <tr>\n                            <td width=\"30%\" align='center'> <img src=\"/img/shimmyYellow.png\" height=\"70px\"/></td>\n                            <td width=\"70%\" align=\"left\">Simple Display</td>\n                        </tr>\n                    </table>\n                </a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12'>\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/expert\" >\n                    <table width=\"100%\" alight=\"left\">\n                        <tr>\n                            <td width=\"30%\" align='center'> <img src=\"/img/shimmyYellow.png\" height=\"70px\"/></td>\n                            <td width=\"70%\" align=\"left\">Expert Display</td>\n                        </tr>\n                    </table>\n                </a>\n            </div>\n        </div>\n    </div>",
         "output": "str",
         "x": 790,
         "y": 300,
@@ -796,7 +803,7 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
-        "template": "Shimmy Shakers",
+        "template": "Shimmy Shake 02",
         "output": "str",
         "x": 510,
         "y": 300,
@@ -1106,7 +1113,8 @@
         "y": 480,
         "wires": [
             [
-                "de69a432.951b48"
+                "de69a432.951b48",
+                "83f46092.d919d"
             ]
         ]
     },
@@ -1114,7 +1122,7 @@
         "id": "de69a432.951b48",
         "type": "websocket out",
         "z": "758e0e20.2b99f",
-        "name": "/shimmy/websocket",
+        "name": "/expert/websocket",
         "server": "f41bd22f.02738",
         "client": "",
         "x": 1450,
@@ -1129,11 +1137,12 @@
         "links": [
             "6a339356.f40b1c"
         ],
-        "x": 1315,
+        "x": 1275,
         "y": 520,
         "wires": [
             [
-                "de69a432.951b48"
+                "de69a432.951b48",
+                "83f46092.d919d"
             ]
         ]
     },
@@ -1360,7 +1369,7 @@
         "type": "function",
         "z": "758e0e20.2b99f",
         "name": "FFTMAG",
-        "func": "var device = flow.get('device');\nvar sampleRate = 1000000.0 / flow.get('device').sampleIntervalReading.value;\nvar averages = flow.get('device').averages.value;\nif (averages < 1) averages = 1;\nvar npts = msg.payload.real.length\nvar npts2 = npts / 2;\nvar mode = [];\nvar modeMin = 0.01;\nvar fftmag = context.get('fftmag');\nvar spectrum    = device.spectrum;\nif (fftmag == undefined)\n{\n    fftmag = [];    \n    for (var ii = 0; ii < npts2; ++ii) fftmag[ii] = 0.0;\n}\n\nfor (var ii = 0; ii < npts2; ++ii)\n{\n    var fft = Math.sqrt(msg.payload.real[ii] * msg.payload.real[ii] + msg.payload.imag[ii] * msg.payload.imag[ii]);\n    fftmag[ii] =  fftmag[ii] + (fft - fftmag[ii]) / averages;\n    mode[ii] = ii * sampleRate / npts;\n    spectrum.value[0][ii] =  Math.round(100.0 * mode[ii] ) / 100.0;\n    spectrum.value[1][ii] =  Math.round(100.0 * fftmag[ii] ) / 100.0;;\n}\ncontext.set('fftmag', fftmag);\n\nvar maxAmp      = device.maxAmp;\nvar maxAmpMode  = device.maxAmpMode;\nvar avgPower    = device.avgPower;\n\nvar minDisplayMode = device.minDisplayMode;\nvar maxDisplayMode = device.maxDisplayMode;\n\nvar minDisplayModeIndex = Math.round(minDisplayMode.value * npts / sampleRate);\nif (minDisplayModeIndex < 1)  minDisplayModeIndex = 1;\nif (minDisplayModeIndex >= npts2)  minDisplayModeIndex = npts2 - 1;\n\nvar maxDisplayModeIndex = Math.round(maxDisplayMode.value * npts / sampleRate);\nif (maxDisplayModeIndex < 1)  maxDisplayModeIndex = 1;\nif (maxDisplayModeIndex >= npts2)  maxDisplayModeIndex = npts2 - 1;\n\nmaxAmp.value = 0.0;\nmaxAmpMode.value = -1;\navgPower.value = 0.0;\nfor (var ii = minDisplayModeIndex; ii <= maxDisplayModeIndex; ++ii)\n{\n    if (maxAmp.value < fftmag[ii])\n    {\n        maxAmp.value = fftmag[ii];\n        maxAmpMode.value = ii * sampleRate / npts;\n    }\n    avgPower.value = avgPower.value + fftmag[ii];\n}\navgPower.value = Math.round(100.0 * avgPower.value) / 100;\nmaxAmp.value = Math.round(100.0 * maxAmp.value) / 100;\nmaxAmpMode.value = Math.round(100.0 * maxAmpMode.value) / 100;\nflow.set('device',device)\nreturn {topic:'device', payload:device};\n",
+        "func": "var device = flow.get('device');\nvar sampleRate = 1000000.0 / flow.get('device').sampleIntervalReading.value;\nvar averages = flow.get('device').averages.value;\nif (averages < 1) averages = 1;\nvar npts = msg.payload.real.length\nvar npts2 = npts / 2;\nvar mode = [];\nvar modeMin = 0.01;\nvar fftmag = context.get('fftmag');\nvar spectrum    = device.spectrum;\nif (fftmag == undefined)\n{\n    fftmag = [];    \n    for (var ii = 0; ii < npts2; ++ii) fftmag[ii] = 0.0;\n}\n\nfor (var ii = 0; ii < npts2; ++ii)\n{\n    var fft = Math.sqrt(msg.payload.real[ii] * msg.payload.real[ii] + msg.payload.imag[ii] * msg.payload.imag[ii]);\n    fftmag[ii] =  fftmag[ii] + (fft - fftmag[ii]) / averages;\n    mode[ii] = ii * sampleRate / npts;\n    spectrum.value[0][ii] =  Math.round(100.0 * mode[ii] ) / 100.0;\n    spectrum.value[1][ii] =  Math.round(100.0 * fftmag[ii] ) / 100.0;;\n}\ncontext.set('fftmag', fftmag);\n\nvar maxAmp      = device.maxAmp;\nvar maxAmpMode  = device.maxAmpMode;\nvar avgPower    = device.avgPower;\n\nvar minDisplayMode = device.minDisplayMode;\nvar maxDisplayMode = device.maxDisplayMode;\n\nvar minDisplayModeIndex = Math.round(minDisplayMode.value * npts / sampleRate);\nif (minDisplayModeIndex < 1)  minDisplayModeIndex = 1;\nif (minDisplayModeIndex >= npts2)  minDisplayModeIndex = npts2 - 1;\n\nvar maxDisplayModeIndex = Math.round(maxDisplayMode.value * npts / sampleRate);\nif (maxDisplayModeIndex < 1)  maxDisplayModeIndex = 1;\nif (maxDisplayModeIndex >= npts2)  maxDisplayModeIndex = npts2 - 1;\n\nmaxAmp.value = 0.0;\nmaxAmpMode.value = -1;\navgPower.value = 0.0;\nfor (var ii = minDisplayModeIndex; ii <= maxDisplayModeIndex; ++ii)\n{\n    if (maxAmp.value < fftmag[ii])\n    {\n        maxAmp.value = fftmag[ii];\n        maxAmpMode.value = ii * sampleRate / npts;\n    }\n    avgPower.value = avgPower.value + fftmag[ii] * fftmag[ii];\n}\navgPower.value = Math.sqrt(avgPower.value / (maxDisplayModeIndex - minDisplayModeIndex + 1));\navgPower.value = Math.round(100.0 * avgPower.value) / 100;\nmaxAmp.value = Math.round(100.0 * maxAmp.value) / 100;\nmaxAmpMode.value = Math.round(100.0 * maxAmpMode.value) / 100;\nflow.set('device',device)\nreturn {topic:'device', payload:device};\n",
         "outputs": 1,
         "noerr": 0,
         "x": 900,
@@ -1612,12 +1621,12 @@
         "id": "57a53591.1ad3cc",
         "type": "http in",
         "z": "e7fde747.82b388",
-        "name": "/shimmy",
-        "url": "/shimmy",
+        "name": "/expert",
+        "url": "/expert",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 140,
+        "x": 130,
         "y": 60,
         "wires": [
             [
@@ -1630,7 +1639,7 @@
         "type": "function",
         "z": "e7fde747.82b388",
         "name": "Set Name And Device Type",
-        "func": "msg.payload['script'] = {};\nmsg.payload['script']['name'] = msg.payload.name\nmsg.payload['script']['deviceType'] = 'shimmy-shake';\nmsg.payload['script']['project'] = global.get('project');\nreturn msg;\n",
+        "func": "msg.payload['script'] = {};\nmsg.payload['script']['name'] = '02'\nmsg.payload['script']['deviceType'] = 'shimmy-shake';\nmsg.payload['script']['project'] = global.get('project');\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "x": 380,
@@ -1676,6 +1685,321 @@
         "wires": [
             [
                 "476134f4.8151ec"
+            ]
+        ]
+    },
+    {
+        "id": "9dd8506d.3aaa6",
+        "type": "template",
+        "z": "e7fde747.82b388",
+        "name": "Body",
+        "field": "payload.body",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "    <div width=\"100%\">\n        <div class='row' style='padding-bottom: 25px;'>\n            <div class='col-md-12'>\n{{{payload.html.maxAmpBar}}}\n            </div>\n        </div>\n        <div class='row' style='padding-bottom: 25px;'>\n            <div class='col-md-12'>\n{{{payload.html.maxAmpModeGauge}}}\n            </div>\n        </div>\n        <div class='row' style='padding-bottom: 25px;'>\n            <div class='col-md-12'>\n{{{payload.html.avgPowerBar}}}\n            </div>\n        </div>\n        <div class='row' style='padding-bottom: 25px;'>\n            <div class='col-md-12'>\n{{{payload.html.ultraAmpBar}}}\n            </div>\n        </div>\n        <div class='row' style='padding-bottom: 25px;'>\n            <div class='col-md-12'>\n{{{payload.html.wifimon}}}\n            </div>\n        </div>\n    </div>\n",
+        "output": "str",
+        "x": 1170,
+        "y": 540,
+        "wires": [
+            [
+                "4ed16d22.0afb34"
+            ]
+        ]
+    },
+    {
+        "id": "e80f36ee.8e4ac8",
+        "type": "template",
+        "z": "e7fde747.82b388",
+        "name": "javascript",
+        "field": "payload.javascript",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "{{{payload.script.global}}}\n{{{payload.script.horzbarWidget}}}\n{{{payload.script.gaugeWidget}}}\n{{{payload.script.editDevice}}}\n",
+        "output": "str",
+        "x": 660,
+        "y": 540,
+        "wires": [
+            [
+                "ee59c08.d38bb4"
+            ]
+        ]
+    },
+    {
+        "id": "7e198218.1fa2fc",
+        "type": "template",
+        "z": "e7fde747.82b388",
+        "name": "script.global",
+        "field": "payload.script.global",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "// Global Javascript\n        var restfulDevice = \n        {\n            deviceType  : '{{{payload.script.deviceType}}}',\n            name        : '{{{payload.script.name}}}',\n            project     : '{{{payload.script.project}}}'\n        };\n        var mqttDevice = null;\n        var device = null;\n\n        var editDeviceProperty = '';\n\n        useWebSockets(true);\n        function onDocumentReady()\n        {\n            $('#waitForArchiveMessage').hide();\n        }\n        function onWebSocketOpen()\n        {\n        }\n        function onWebSocketClose()\n        {\n            wsConnectC();\n        }\n        function onWebSocketMessage(msg)\n        {\n            switch(msg.topic)\n            {\n                \n                case 'readings':\n                    if (msg.mqttDevice.name == restfulDevice.name)\n                    {\n                        heartbeat();\n                        device = msg.payload;\n                        mqttDevice = msg.mqttDevice;\n                        updateDmaReadings();\n                        updateMaxAmpBarChart();\n                        updateMaxAmpModeGaugeChart();\n                        updateAvgPowerBarChart();\n                        updateUltraAmpBarChart();\n                    }\n                    break;\n                case 'getJwtToken':\n                    if (msg.userID == userID) loadJwtToken(msg);\n                    break;\n                case 'settingAcknowledge':\n                    if (msg.userID == userID)\n                    {\n                        if (msg.payload != 'Success!') acknowledgeDialog('Acknowledge', 'Setting', msg.payload);\n                    }\n                    break;\n                default:\n                // code block\n            }\n        }\n        function updateMaxAmpBarChart()\n        {\n            var maxAmpBarConfig = \n                {\n                    lolo            : device.maxAmp.alarm.limits.lolo, \n                    low             : device.maxAmp.alarm.limits.low, \n                    high            : device.maxAmp.alarm.limits.high, \n                    hihi            : device.maxAmp.alarm.limits.hihi, \n                    value           : device.maxAmp.value, \n                    unit            : device.maxAmp.unit, \n                    textsize        : 38,\n                    label           : 'ultraAmp', \n                    lowColor        : '#00ff00', \n                    mediumColor     : '#ffff00',\n                    highColor       : 'ff0000', \n                    backgroundColor : '#9eb5c7', \n                    labelColor      : '#000000', \n                    gridColor       : '#ffffff',\n                    height          : 300, \n                    htmlId          : 'maxAmpBarPlot'\n                };\n            setHorzBarWidget(maxAmpBarConfig);\n        }\n        function updateMaxAmpModeGaugeChart()\n        {\n            var maxAmpModeGaugeConfig = \n                {\n                    lolo            : device.maxAmpMode.alarm.limits.lolo, \n                    low             : device.maxAmpMode.alarm.limits.low, \n                    high            : device.maxAmpMode.alarm.limits.high, \n                    hihi            : device.maxAmpMode.alarm.limits.hihi, \n                    value           : device.maxAmpMode.value, \n                    unit            : device.maxAmpMode.unit, \n                    textsize        : 38,\n                    label           : 'Freq.', \n                    lowColor        : '#ff0000', \n                    mediumColor     : '#00ff00',\n                    highColor       : '#ffff00', \n                    backgroundColor : '#9eb5c7', \n                    labelColor      : '#000000', \n                    size            : 800, \n                    htmlId          : 'maxAmpModeGaugePlot'\n                };\n            setGaugeWidget(maxAmpModeGaugeConfig);\n        }\n        function updateAvgPowerBarChart()\n        {\n            var avgPowerBarConfig = \n                {\n                    lolo            : device.avgPower.alarm.limits.lolo, \n                    low             : device.avgPower.alarm.limits.low, \n                    high            : device.avgPower.alarm.limits.high, \n                    hihi            : device.avgPower.alarm.limits.hihi, \n                    value           : device.avgPower.value, \n                    unit            : device.avgPower.unit, \n                    textsize        : 38,\n                    label           : 'ultraAmp', \n                    lowColor        : '#00ff00', \n                    mediumColor     : '#ffff00',\n                    highColor       : 'ff0000', \n                    backgroundColor : '#9eb5c7', \n                    labelColor      : '#000000', \n                    gridColor       : '#ffffff',\n                    height          : 300, \n                    htmlId          : 'avgPowerBarPlot'\n                };\n            setHorzBarWidget(avgPowerBarConfig);\n        }\n        function updateUltraAmpBarChart()\n        {\n            var ultraAmpBarConfig = \n                {\n                    lolo            : device.ultraAmp.alarm.limits.lolo, \n                    low             : device.ultraAmp.alarm.limits.low, \n                    high            : device.ultraAmp.alarm.limits.high, \n                    hihi            : device.ultraAmp.alarm.limits.hihi, \n                    value           : device.ultraAmp.value, \n                    unit            : device.ultraAmp.unit, \n                    textsize        : 38,\n                    label           : 'ultraAmp', \n                    lowColor        : '#ff0000', \n                    mediumColor     : '#ffff00',\n                    highColor       : '#00ff00', \n                    backgroundColor : '#9eb5c7', \n                    labelColor      : '#000000', \n                    gridColor       : '#ffffff',\n                    height          : 300, \n                    htmlId          : 'ultraAmpBarPlot'\n                };\n            setHorzBarWidget(ultraAmpBarConfig);\n        }\n        function updateDmaReadings()\n        {\n/*            var minFreq = device.minDisplayMode.value;\n            var maxFreq = device.maxDisplayMode.value;\n            if (device.spectrum.value[0][255] < maxFreq) maxFreq = device.spectrum.value[0][255];\n            var maxAmp = device.maxAmp.value;\n            var maxAmpMode = device.maxAmpMode.value;\n            var avgPower = device.avgPower.value;\n*/\n            $('#linkQualityId').text(device.linkQuality.value);\n            $('#signalLevelId').text(device.signalLevel.value);\n\n        }\n\n",
+        "output": "str",
+        "x": 670,
+        "y": 380,
+        "wires": [
+            [
+                "6276c09b.f8ee"
+            ]
+        ]
+    },
+    {
+        "id": "6276c09b.f8ee",
+        "type": "template",
+        "z": "e7fde747.82b388",
+        "name": "script.horzbarWidget",
+        "field": "payload.script.horzbarWidget",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "// Horz Bar Widget\n        function setHorzBarWidget(barConfig)\n        {\n            var lowValue = 0;\n            var mediumValue = 0;\n            var highValue = 0;\n        \n            var lowColor = barConfig.backgroundColor;\n            var mediumColor = barConfig.backgroundColor;\n            var highColor = barConfig.backgroundColor;\n            var valueColor = barConfig.backgroundColor; \n            \n            if ( barConfig.value <= barConfig.lolo)\n            {\n                lowValue = barConfig.lolo;\n                lowColor = barConfig.lowColor;\n                valueColor = lowColor;\n            }\n            if ( (barConfig.lolo <= barConfig.value) && (barConfig.value < barConfig.low) )\n            {\n                lowValue = barConfig.value;\n                lowColor = barConfig.lowColor;\n                valueColor = lowColor;\n            }\n            if ( (barConfig.low  <= barConfig.value) && (barConfig.value < barConfig.high) )\n            {\n                lowValue = barConfig.low;\n                mediumValue = barConfig.value - barConfig.low; \n                lowColor = barConfig.mediumColor;\n                mediumColor = barConfig.mediumColor;\n                valueColor = mediumColor;\n        \n            }\n            if ( (barConfig.high <= barConfig.value) && (barConfig.value < barConfig.hihi) )\n            {\n                lowValue = barConfig.low;\n                mediumValue = barConfig.high - barConfig.low;\n                highValue = barConfig.value - barConfig.high;\n                lowColor = barConfig.highColor;\n                mediumColor = barConfig.highColor;\n                highColor = barConfig.highColor;\n                valueColor = highColor;\n            }\n            if ( barConfig.hihi <= barConfig.value)\n            {\n                lowValue = barConfig.low;\n                mediumValue = barConfig.high - barConfig.low; \n                highValue = barConfig.hihi - barConfig.high; \n                lowColor = barConfig.highColor;\n                mediumColor = barConfig.highColor;\n                highColor = barConfig.highColor;\n                valueColor = highColor;\n            }\n            \n            var lowBar = \n            {\n                y: ['', '-'],\n                x: [ barConfig.low, lowValue],\n                type: 'bar',\n                orientation: 'h',\n                showlegend: false,\n                marker:{color: [barConfig.lowColor, lowColor]},\n              width: [0.1, 1.0],\n            };\n            var mediumBar = \n            {\n                y: ['', '-'],\n                x: [barConfig.high - barConfig.low, mediumValue],\n                type: 'bar',\n                orientation: 'h',\n                showlegend: false,\n                marker:{color: [barConfig.mediumColor, mediumColor]},\n              width: [0.1, 1.0],\n            };\n            var highBar = \n            {\n                y: ['', '-'],\n                x: [barConfig.hihi - barConfig.high, highValue],\n                orientation: 'h',\n                type: 'bar',\n                showlegend: false,\n                marker:{color: [barConfig.highColor, highColor]},\n              width: [0.1, 1.0],\n            };\n            var layout = \n                {\n                    barmode: 'stack',\n                    plot_bgcolor:barConfig.backgroundColor,\n                    paper_bgcolor:barConfig.backgroundColor,\n                    margin: \n                        {\n                            t: 70, //top margin\n                            l: 20, //left margin\n                            r: 20, //right margin\n                            b: 70 //bottom margin\n                        },\n \n                    height: barConfig.height,\n                    title: \n                        {\n                            text: barConfig.value.toString() + ' ' + barConfig.unit,\n                            font: {color: valueColor, size:barConfig.textsize},\n                        },\n                    yaxis: \n                        {\n                            tickfont: {color:valueColor, size:barConfig.textsize}\n                        },\n                    xaxis: \n                        {\n                            range: [barConfig.lolo, barConfig.hihi],\n                            tickfont: {color:barConfig.labelColor, size:barConfig.textsize},\n                            gridcolor       : barConfig.gridColor\n\n                        },\n                };\n           Plotly.newPlot(barConfig.htmlId, [lowBar, mediumBar, highBar], layout, {'displayModeBar': false});\n        }\n        \n        \n        \n        \n        \n    \n",
+        "output": "str",
+        "x": 700,
+        "y": 420,
+        "wires": [
+            [
+                "5b301a8b.9cd354"
+            ]
+        ]
+    },
+    {
+        "id": "ee59c08.d38bb4",
+        "type": "template",
+        "z": "e7fde747.82b388",
+        "name": "html.maxAmpBar",
+        "field": "payload.html.maxAmpBar",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "                <div class='card'>\n                    <div class='row'>\n                        <div class='col-md-2'>\n                        </div>\n                        <div class='col-md-8'>\n                            <p class='card-title'>Vibration Amplitude</p>\n                         </div>\n                        <div class='col-md-2'>\n                            <button class='btn btn-block card-button big-text' id=\"ultraAmpButton\" onclick=\"editDevice('maxAmp')\" >Edit</button>\n                        </div>\n                    </div>\n                    <div class='card-body' align=\"center\">\n                        <div class='row'>\n                            <div class='col-md-12'>\n                                <div id=\"maxAmpBarPlot\" width=\"100%\" ></div>\n                           </div>\n                        </div>\n                    </div>\n                </div>\n",
+        "output": "str",
+        "x": 1010,
+        "y": 380,
+        "wires": [
+            [
+                "55ab8167.5d386"
+            ]
+        ]
+    },
+    {
+        "id": "761d2635.a67c98",
+        "type": "template",
+        "z": "e7fde747.82b388",
+        "name": "html.wifimon",
+        "field": "payload.html.wifimon",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "<!-- Dashboard HTML -->\n                <div class='card'>\n                    <p class='card-title'>WiFi Connection</p>\n                    <div class='card-body' align=\"center\">\n                        <div class='row'  style='padding-top: 0px;'>\n                            <table width='100%'>\n                                <tr>\n                                    <td width='60%' >\n                                        <span class='card-text' >Device Update</span>\n                                    </td>\n                                    <td width='20%' align='center'></td>\n                                    <td width='20%' align='center'>\n                                        <img src='/img/heartRed.png' id='heartBeatID' width='100px' height='100px'/>\n                                    </td>\n                                </tr>\n                                <tr>\n                                    <td width='60%' >\n                                        <span class='card-text' >Signal Level (dBm)</span>\n                                    </td>\n                                    <td width='20%' align='center'></td>\n                                    <td width='20%' align='center'>\n                                        <span class='card-text' id='signalLevelId' >-100</span>\n                                    </td>\n                                </tr>\n                                <tr>\n                                    <td width='60%' >\n                                        <span class='card-text' >Link Quality (/70)</span>\n                                    </td>\n                                    <td width='20%' align='center'></td>\n                                    <td width='20%' align='center'>\n                                        <span class='card-text' id='linkQualityId' >-1</span>\n                                    </td>\n                                </tr>\n                            </table>\n                        </div>\n                    </div>\n                </div>\n",
+        "output": "str",
+        "x": 990,
+        "y": 540,
+        "wires": [
+            [
+                "9dd8506d.3aaa6"
+            ]
+        ]
+    },
+    {
+        "id": "b7556366.48b58",
+        "type": "template",
+        "z": "e7fde747.82b388",
+        "name": "script.editDevice",
+        "field": "payload.script.editDevice",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "// Edit Temp JavaScript\n       $( function() \n        {\n            $( \"#editDeviceDialog\" ).dialog(\n                {\n//                    closeOnEscape: false,\n//                    open: function(event, ui) {$(\".ui-dialog-titlebar-close\", ui.dialog | ui).hide();},\n                    width:    640,\n                    autoOpen: false,\n                    buttons:\n                    [\n                        {\n                            text: \"Set\",\n                            click: function() {setDevice(); $( this ).dialog( \"close\" );},\n                            showText: false\n                        },\n                        {\n                            text: \"Cancel\",\n                            click: function() \n                            {\n                                $( this ).dialog( \"close\" ); \n                            },\n                            showText: false\n                        }\n                    ]\n                });\n        } );\n        function editDevice(attrName)\n        {\n            $( \"#editDeviceDialog\" ).dialog( \"option\", \"title\", \"Edit\"); \n            editedAttribute = attrName;\n            $( \"#editDeviceDialogAttribute\").html(attrName);\n\n            var attr = device[attrName];\n            $( \"#loloAlarm\").val(attr.alarm.limits.lolo);\n            $( \"#lowAlarm\").val(attr.alarm.limits.low);\n            $( \"#highAlarm\").val(attr.alarm.limits.high);\n            $( \"#hihiAlarm\").val(attr.alarm.limits.hihi);\n            $( \"#notifyName\").val(attr.alarm.notify.name);\n            $( \"#notifyNumber\").val(attr.alarm.notify.number);\n\n            $( \"#editDeviceDialog\" ).dialog( \"open\" );\n        }\n        function setDevice()\n        {\n            var attr = device[editedAttribute];\n            if (isNaN($('#loloAlarm').val()) \n                || isNaN($('#lowAlarm').val()) \n                || isNaN($('#highAlarm').val()) \n                || isNaN($('#hihiAlarm').val()))\n            {\n                acknowledgeDialog('Error', 'Entry not a number!', editedAttribute);\n                editedAttribute = '';\n                return;\n            }\n            editedAttribute = '';\n\n            attr.alarm.limits.lolo = Number($( \"#loloAlarm\").val());\n            attr.alarm.limits.low = Number($( \"#lowAlarm\").val());\n            attr.alarm.limits.high = Number($( \"#highAlarm\").val());\n            attr.alarm.limits.hihi = Number($( \"#hihiAlarm\").val());\n            attr.alarm.notify.number =  $( \"#notifyNumber\").val();\n            attr.alarm.notify.name = $( \"#notifyName\").val();\n            var mqttMessage = \n            {\n                topic   : mqttDevice.project + '/' +  mqttDevice.deviceType + '/' +  mqttDevice.name + '/setting',\n                payload :  device\n            };\n            checkLogin(sendSettingToMqtt, mqttMessage);\n        }\n",
+        "output": "str",
+        "x": 680,
+        "y": 500,
+        "wires": [
+            [
+                "e80f36ee.8e4ac8"
+            ]
+        ]
+    },
+    {
+        "id": "4ed16d22.0afb34",
+        "type": "subflow:27d784cd.64e56c",
+        "z": "e7fde747.82b388",
+        "name": "",
+        "x": 1310,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "9772fb0a.8150a8",
+        "type": "http in",
+        "z": "e7fde747.82b388",
+        "name": "/simple",
+        "url": "/simple",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 380,
+        "wires": [
+            [
+                "2ae155e7.5a7d1a"
+            ]
+        ]
+    },
+    {
+        "id": "2ae155e7.5a7d1a",
+        "type": "function",
+        "z": "e7fde747.82b388",
+        "name": "Set Name And Device Type",
+        "func": "msg.payload['script'] = {};\nmsg.payload['script']['name'] = '02'\nmsg.payload['script']['deviceType'] = 'shimmy-shake';\nmsg.payload['script']['project'] = global.get('project');\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 380,
+        "wires": [
+            [
+                "87d60da9.b786e"
+            ]
+        ]
+    },
+    {
+        "id": "79a8df88.fcb66",
+        "type": "template",
+        "z": "e7fde747.82b388",
+        "name": "Set Title",
+        "field": "payload.title",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "Shimmy Shake {{{payload.script.name}}}",
+        "output": "str",
+        "x": 320,
+        "y": 460,
+        "wires": [
+            [
+                "7e198218.1fa2fc"
+            ]
+        ]
+    },
+    {
+        "id": "87d60da9.b786e",
+        "type": "template",
+        "z": "e7fde747.82b388",
+        "name": "navBarIcon",
+        "field": "payload.navBarIcon",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "shimmyYellow.png",
+        "output": "str",
+        "x": 330,
+        "y": 420,
+        "wires": [
+            [
+                "79a8df88.fcb66"
+            ]
+        ]
+    },
+    {
+        "id": "83f46092.d919d",
+        "type": "websocket out",
+        "z": "758e0e20.2b99f",
+        "name": "/simple/websocket",
+        "server": "2153079e.9f0b88",
+        "client": "",
+        "x": 1450,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "eb0a1464.2cf888",
+        "type": "websocket in",
+        "z": "3c8f4102.d86f2e",
+        "name": "/simple/websocket",
+        "server": "2153079e.9f0b88",
+        "client": "",
+        "x": 170,
+        "y": 460,
+        "wires": [
+            [
+                "1bec8592.b3607a"
+            ]
+        ]
+    },
+    {
+        "id": "38e0f7c2.8776e8",
+        "type": "template",
+        "z": "e7fde747.82b388",
+        "name": "html.ultraAmpBar",
+        "field": "payload.html.ultraAmpBar",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "                <div class='card'>\n                    <div class='row'>\n                        <div class='col-md-2'>\n                        </div>\n                        <div class='col-md-8'>\n                            <p class='card-title'>UltraSound Amplitude</p>\n                         </div>\n                        <div class='col-md-2'>\n                            <button class='btn btn-block card-button big-text' id=\"ultraAmpButton\" onclick=\"editDevice('ultraAmp')\" >Edit</button>\n                        </div>\n                    </div>\n                    <div class='card-body' align=\"center\">\n                        <div class='row'>\n                            <div class='col-md-12'>\n                                <div id=\"ultraAmpBarPlot\" width=\"100%\" ></div>\n                           </div>\n                        </div>\n                    </div>\n                </div>\n                <div id=\"editDeviceDialog\" title=\"Edit Device\" class='card'>\n                    <p class='card-title' id='editDeviceDialogAttribute'>Attribute</p>\n                    <div class='card-body'>\n                        <table>\n                            <tr>\n                                <td width=\"70%\" align=\"left\">  <span class=\"tableHeading tableText\">LoLo</span></td>\n                                <td width=\"30%\" align=\"right\"><input class=\"form-control tableText\" id=\"loloAlarm\" type=\"text\" value=\"0\" /></td>\n                            </tr>\n                            <tr>\n                                <td width=\"70%\" align=\"left\">  <span class=\"tableHeading tableText\">LOW</span></td>\n                                <td width=\"30%\" align=\"right\"><input class=\"form-control tableText\" id=\"lowAlarm\" type=\"text\" value=\"0\" /></td>\n                            </tr>\n                            <tr>\n                                <td width=\"70%\" align=\"left\">  <span class=\"tableHeading tableText\">HIGH</span></td>\n                                <td width=\"30%\" align=\"right\"><input class=\"form-control tableText\" id=\"highAlarm\" type=\"text\" value=\"0\" /></td>\n                            </tr>\n                            <tr>\n                                <td width=\"70%\" align=\"left\">  <span class=\"tableHeading tableText\">HiHi</span></td>\n                                <td width=\"30%\" align=\"right\"><input class=\"form-control tableText\" id=\"hihiAlarm\" type=\"text\" value=\"0\" /></td>\n                            </tr>\n                            <tr>\n                                <td width=\"70%\" align=\"left\">  <span class=\"tableHeading tableText\">Notify Name</span></td>\n                                <td width=\"30%\" align=\"right\"><input class=\"form-control tableText\" id=\"notifyName\" type=\"text\" value=\"\" /></td>\n                            </tr>\n                            <tr>\n                                <td width=\"70%\" align=\"left\">  <span class=\"tableHeading tableText\">Notify Number</span></td>\n                                <td width=\"30%\" align=\"right\"><input class=\"form-control tableText\" id=\"notifyNumber\" type=\"text\" value=\"\" /></td>\n                            </tr>\n                        </table>\n                    </div>\n                </div>",
+        "output": "str",
+        "x": 1010,
+        "y": 500,
+        "wires": [
+            [
+                "761d2635.a67c98"
+            ]
+        ]
+    },
+    {
+        "id": "dbd2c40d.0de578",
+        "type": "template",
+        "z": "e7fde747.82b388",
+        "name": "html.avgPowerBar",
+        "field": "payload.html.avgPowerBar",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "                <div class='card'>\n                    <div class='row'>\n                        <div class='col-md-2'>\n                        </div>\n                        <div class='col-md-8'>\n                            <p class='card-title'>Vibration Power</p>\n                         </div>\n                        <div class='col-md-2'>\n                            <button class='btn btn-block card-button big-text' id=\"ultraAmpButton\" onclick=\"editDevice('avgPower')\" >Edit</button>\n                        </div>\n                    </div>\n                    <div class='card-body' align=\"center\">\n                        <div class='row'>\n                            <div class='col-md-12'>\n                                <div id=\"avgPowerBarPlot\" width=\"100%\" ></div>\n                           </div>\n                        </div>\n                    </div>\n                </div>\n",
+        "output": "str",
+        "x": 1010,
+        "y": 460,
+        "wires": [
+            [
+                "38e0f7c2.8776e8"
+            ]
+        ]
+    },
+    {
+        "id": "5b301a8b.9cd354",
+        "type": "template",
+        "z": "e7fde747.82b388",
+        "name": "script.gaugeWidget",
+        "field": "payload.script.gaugeWidget",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "// GaugeWidget\n        function setGaugeWidget(gaugeConfig)\n        {\n            var degrees = 180.0 * (gaugeConfig.hihi - gaugeConfig.value) / (gaugeConfig.hihi - gaugeConfig.lolo);\n            if (degrees < 0.0 )   degrees = 0.0;\n            if (degrees > 180.0 ) degrees = 180.0;\n            // Trig to calc meter point\n            var radius = 0.50;\n            var radians = degrees * Math.PI / 180;\n            var x = radius * Math.cos(radians);\n            var y = radius * Math.sin(radians);\n            var path1 = (degrees < 45 || degrees > 135) ? 'M -0.0 -0.025 L 0.0 0.025 L ' : 'M -0.025 -0.0 L 0.025 0.0 L ';\n            // Path: may have to change to create a better triangle\n            var mainPath = path1,\n                pathX = String(x),\n                space = ' ',\n                pathY = String(y),\n                pathEnd = ' Z';\n            var rotation = (180.0 * (gaugeConfig.high - gaugeConfig.lolo) / (gaugeConfig.hihi - gaugeConfig.lolo)) - 90.0;\n            var path = mainPath.concat(pathX,space,pathY,pathEnd);\n        \n            var valueColor = gaugeConfig.backgroundColor; \n            \n            if ( (gaugeConfig.lolo <= gaugeConfig.value) && (gaugeConfig.value < gaugeConfig.low) )\n            {\n                valueColor = gaugeConfig.lowColor;\n            }\n            if ( (gaugeConfig.low  <= gaugeConfig.value) && (gaugeConfig.value < gaugeConfig.high) )\n            {\n                valueColor = gaugeConfig.mediumColor;\n            }\n            if ( (gaugeConfig.high <= gaugeConfig.value) && (gaugeConfig.value < gaugeConfig.hihi) )\n            {\n              valueColor = gaugeConfig.highColor;\n            }\n            if ( gaugeConfig.hihi <= gaugeConfig.value)\n            {\n                valueColor = gaugeConfig.highColor;\n            }\n        \n        \n            var data = \n                [\n                    { \n                        type: 'scatter',\n                        x: [0], y:[0],\n                        marker: {size: 14, color:valueColor},\n                        showlegend: false,\n                        name: gaugeConfig.label,\n                        text: gaugeConfig.value.toString(),\n                        hoverinfo: 'text+name',\n        \n                        \n                    },\n                    { \n                        values: \n                            [\n                                gaugeConfig.hihi - gaugeConfig.high, \n                                gaugeConfig.high - gaugeConfig.low, \n                                gaugeConfig.low  - gaugeConfig.lolo, \n                                gaugeConfig.hihi - gaugeConfig.lolo \n                            ],\n                        rotation: rotation,\n                        text: \n                            [\n                                gaugeConfig.high.toString() + '-' + gaugeConfig.hihi.toString(), \n                                gaugeConfig.low.toString()  + '-' + gaugeConfig.high.toString(), \n                                gaugeConfig.lolo.toString() + '-' + gaugeConfig.low.toString(), \n                                ''\n                            ],\n                        textinfo: 'text',\n                        textposition:'inside',\n                        textfont: {color: gaugeConfig.labelColor, size:gaugeConfig.textsize},\n                        marker: \n                            {\n                                colors:\n                                    [\n                                        gaugeConfig.highColor,\n                                        gaugeConfig.mediumColor,\n                                        gaugeConfig.lowColor, \n                                        gaugeConfig.backgroundColor\n                                    ]\n                            },\n                        hoverinfo: 'label',\n                        hole: 0.5,\n                        type: 'pie',\n                        showlegend: false,\n                        sort: false\n                    }\n                ];\n            var layout = \n                {\n                    shapes:\n                        [\n                            {\n                                type: 'path',\n                                path: path,\n                                fillcolor: valueColor,\n                                line: {color: valueColor }\n                            }\n                        ],\n                    height: gaugeConfig.size,\n                    width: gaugeConfig.size,\n                    title: \n                        {\n                            text:gaugeConfig.label + ': ' + gaugeConfig.value.toString() + gaugeConfig.unit,\n                            font: {color: valueColor, size:gaugeConfig.textsize},\n                         },\n                    xaxis: \n                        {\n                            zeroline:false, \n                            showticklabels:false,\n                            showgrid: false, \n                            range: [-1, 1],\n                        },\n                    yaxis: \n                        {\n                            zeroline:false, \n                            showticklabels:false,\n                            showgrid: false, \n                            range: [-1, 1]\n                        },\n                    margin: \n                        {\n                            t: 80, //top margin\n                            l: 0, //left margin\n                            r: 0, //right margin\n                            b: 20 //bottom margin\n                        },\n                    plot_bgcolor:gaugeConfig.backgroundColor,\n                    paper_bgcolor:gaugeConfig.backgroundColor\n            \n                };\n            $('#' + gaugeConfig.htmlId).attr('style','max-height: calc(' + (gaugeConfig.size / 2).toString() + 'px + 20px) !important; overflow:hidden;');\n            Plotly.newPlot(gaugeConfig.htmlId, data, layout, {'displayModeBar': false});\n        }",
+        "output": "str",
+        "x": 690,
+        "y": 460,
+        "wires": [
+            [
+                "b7556366.48b58"
+            ]
+        ]
+    },
+    {
+        "id": "55ab8167.5d386",
+        "type": "template",
+        "z": "e7fde747.82b388",
+        "name": "html.maxAmpModeGauge",
+        "field": "payload.html.maxAmpModeGauge",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "                <div class='card'>\n                    <div class='row'>\n                        <div class='col-md-2'>\n                        </div>\n                        <div class='col-md-8'>\n                            <p class='card-title'>Vibration Frequency</p>\n                         </div>\n                        <div class='col-md-2'>\n                            <button class='btn btn-block card-button big-text' id=\"ultraAmpButton\" onclick=\"editDevice('maxAmpMode')\" >Edit</button>\n                        </div>\n                    </div>\n                    <div class='card-body' align=\"center\">\n                        <div class='row'>\n                            <div class='col-md-12'>\n                                <div id=\"maxAmpModeGaugePlot\" width=\"100%\" ></div>\n                           </div>\n                        </div>\n                    </div>\n                </div>\n",
+        "output": "str",
+        "x": 1030,
+        "y": 420,
+        "wires": [
+            [
+                "dbd2c40d.0de578"
             ]
         ]
     }
